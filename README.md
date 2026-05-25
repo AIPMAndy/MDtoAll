@@ -1,61 +1,211 @@
-# MDtoAll
+<div align="center">
 
-<p align="center">
-  <strong>A powerful Markdown conversion toolkit based on Quarkdown</strong>
-  <br><br>
-  <a href="#features">Features</a> •
-  <a href="#installation">Installation</a> •
-  <a href="#quick-start">Quick Start</a> •
-  <a href="#usage">Usage</a> •
-  <a href="#license">License</a>
-</p>
+# 📝 MDtoAll
+
+### 强大的 Markdown 多格式转换工具 | Powerful Markdown Conversion Toolkit
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![GitHub release](https://img.shields.io/github/v/release/AIPMAndy/MDtoAll)](https://github.com/AIPMAndy/MDtoAll/releases)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AIPMAndy/MDtoAll/pulls)
+
+[English](#english) | [中文](#中文)
+
+</div>
 
 ---
 
-## About
+## 中文
 
-MDtoAll is a versatile Markdown-based document conversion system forked from [Quarkdown](https://github.com/iamgio/quarkdown). It extends CommonMark and GFM with powerful scripting capabilities, allowing you to transform a single Markdown source into multiple professional output formats.
+### 🎯 这是什么？
 
-### Why MDtoAll?
+MDtoAll 是一个基于 [Quarkdown](https://github.com/iamgio/quarkdown) 的 Markdown 增强转换系统。它让你用一份 Markdown 源文件，轻松生成多种专业格式的文档。
 
-- **One Source, Multiple Outputs**: Write once in Markdown, export to HTML, PDF, slides, or documentation sites
-- **Turing-Complete**: Built-in scripting with functions, variables, and control flow
-- **Professional Typography**: LaTeX-quality output without LaTeX complexity
-- **Live Preview**: Real-time preview with hot reload during editing
-- **Extensible**: Rich standard library with layout builders, math support, and more
+**一次编写，随处发布** —— 从笔记到论文，从演示文稿到技术文档，一个工具搞定。
 
-## Features
+### ✨ 核心特性
 
-### Document Types
+#### 📄 多种文档类型
+- **普通文档** - 类似 Notion 的连续流式布局，适合网站和笔记
+- **分页文档** - LaTeX 级别的排版质量，适合书籍、论文和报告
+- **幻灯片** - 基于 reveal.js 的交互式演示文稿
+- **技术文档** - 适合 Wiki 和知识库的文档站点
 
+#### 🎨 强大功能
+- **函数系统** - 用 `.function {name}` 语法扩展 Markdown
+- **图灵完备** - 内置变量、循环和条件渲染
+- **专业排版** - LaTeX 质量的输出，但没有 LaTeX 的复杂性
+- **实时预览** - 编辑时热重载，所见即所得
+- **丰富内容** - 数学公式、图表、代码高亮
+- **布局控制** - 容器、列、对齐、间距完全可控
+
+#### 📦 输出格式
+- ✅ HTML（支持所有文档类型）
+- ✅ PDF（通过 Puppeteer）
+- ✅ 纯文本
+
+### 🚀 快速开始
+
+#### 安装要求
+- Java 17 或更高版本
+- Node.js 和 npm（用于 PDF 导出）
+
+#### macOS/Linux 安装
+
+```bash
+# 使用 Homebrew
+brew install quarkdown-labs/quarkdown/quarkdown
+
+# 或使用安装脚本
+curl -fsSL https://raw.githubusercontent.com/quarkdown-labs/get-quarkdown/refs/heads/main/install.sh | sudo env "PATH=$PATH" bash
+```
+
+#### Windows 安装
+
+```powershell
+# 使用安装脚本
+irm https://raw.githubusercontent.com/quarkdown-labs/get-quarkdown/refs/heads/main/install.ps1 | iex
+
+# 或使用 Scoop
+scoop bucket add java
+scoop bucket add quarkdown https://github.com/quarkdown-labs/scoop-quarkdown
+scoop install quarkdown
+```
+
+#### 从源码构建
+
+```bash
+git clone https://github.com/AIPMAndy/MDtoAll.git
+cd MDtoAll
+./gradlew installDist
+```
+
+### 📖 使用示例
+
+#### 创建第一个文档
+
+```bash
+# 创建新项目
+quarkdown create my-project
+
+# 或手动创建 .qd 文件
+cat > hello.qd << 'EOF'
+.doctype {plain}
+
+# 你好，世界
+
+这是 **MDtoAll** 的演示！
+
+.center
+    居中的文本块
+
+## 功能展示
+
+.row alignment:{spacebetween}
+    ![图片1](img1.png)
+    ![图片2](img2.png)
+    ![图片3](img3.png)
+EOF
+```
+
+#### 编译文档
+
+```bash
+# 基础编译
+quarkdown c hello.qd
+
+# 实时预览（推荐）
+quarkdown c hello.qd -p -w
+
+# 导出 PDF
+quarkdown c hello.qd --pdf
+```
+
+#### 高级语法示例
+
+**自定义函数：**
+
+```markdown
+.function {问候}
+    名字 来自:
+    **你好，.名字！** 来自 .来自
+
+.问候 {世界} 来自:{MDtoAll}
+```
+
+输出：**你好，世界！** 来自 MDtoAll
+
+**文档类型设置：**
+
+```markdown
+.doctype {plain}   # 默认：连续流
+.doctype {paged}   # 打印就绪的分页
+.doctype {slides}  # 演示模式
+.doctype {docs}    # 文档站点
+```
+
+### 📊 对比其他工具
+
+|                  | MDtoAll | LaTeX | Typst | AsciiDoc | MDX |
+|------------------|:-------:|:-----:|:-----:|:--------:|:---:|
+| 语法简洁易读     | ✅ | ❌ | ✅ | ✅ | ✅ |
+| 完整文档控制     | ✅ | ✅ | ✅ | ❌ | ❌ |
+| 脚本支持         | ✅ | 部分 | ✅ | ❌ | ✅ |
+| 多种输出格式     | ✅ | ❌ | 部分 | ✅ | ✅ |
+| 学习曲线         | 低 | 高 | 中 | 低 | 低 |
+
+### 🤝 贡献
+
+欢迎贡献！请查看 [CONTRIBUTING.md](CONTRIBUTING.md) 了解详情。
+
+### 📜 许可证
+
+- 核心模块：GNU GPLv3
+- CLI 和 LSP：GNU AGPLv3
+
+详见 [LICENSE](LICENSE)。
+
+### 🙏 致谢
+
+MDtoAll 是 [Quarkdown](https://github.com/iamgio/quarkdown) 的分支，由 [Giorgio Garofalo](https://github.com/iamgio) 创建。感谢原作者和所有贡献者。
+
+---
+
+## English
+
+### 🎯 What is MDtoAll?
+
+MDtoAll is a versatile Markdown-based document conversion system forked from [Quarkdown](https://github.com/iamgio/quarkdown). It transforms a single Markdown source into multiple professional output formats.
+
+**Write once, publish everywhere** — from notes to papers, from presentations to technical documentation.
+
+### ✨ Key Features
+
+#### 📄 Multiple Document Types
 - **Plain Documents** - Notion-like continuous flow for websites and notes
-- **Paged Documents** - LaTeX-quality books, papers, and reports
+- **Paged Documents** - LaTeX-quality typography for books, papers, and reports
 - **Slides** - Interactive presentations powered by reveal.js
 - **Documentation** - Technical wikis and knowledge bases
 
-### Output Formats
+#### 🎨 Powerful Capabilities
+- **Function System** - Extend Markdown with `.function {name}` syntax
+- **Turing-Complete** - Built-in variables, loops, and conditional rendering
+- **Professional Typography** - LaTeX-quality output without LaTeX complexity
+- **Live Preview** - Real-time hot reload during editing
+- **Rich Content** - Math equations, diagrams, code highlighting
+- **Layout Control** - Full control over containers, columns, alignment, spacing
 
+#### 📦 Output Formats
 - ✅ HTML (all document types)
 - ✅ PDF (via Puppeteer)
 - ✅ Plain Text
 
-### Key Capabilities
+### 🚀 Quick Start
 
-- 📝 **Function System**: Extend Markdown with `.function {name}` syntax
-- 🎨 **Layout Control**: Containers, columns, alignment, and spacing
-- 📊 **Rich Content**: Math equations, diagrams, code highlighting
-- 🔄 **Dynamic Content**: Variables, loops, and conditional rendering
-- 🎯 **Type Safety**: Strongly-typed function parameters
-- 🚀 **Fast Compilation**: Optimized Kotlin-based compiler
-
-## Installation
-
-### Prerequisites
-
+#### Prerequisites
 - Java 17 or higher
 - Node.js and npm (for PDF export)
 
-### macOS/Linux
+#### Installation on macOS/Linux
 
 ```bash
 # Using Homebrew
@@ -65,7 +215,7 @@ brew install quarkdown-labs/quarkdown/quarkdown
 curl -fsSL https://raw.githubusercontent.com/quarkdown-labs/get-quarkdown/refs/heads/main/install.sh | sudo env "PATH=$PATH" bash
 ```
 
-### Windows
+#### Installation on Windows
 
 ```powershell
 # Using install script
@@ -77,76 +227,58 @@ scoop bucket add quarkdown https://github.com/quarkdown-labs/scoop-quarkdown
 scoop install quarkdown
 ```
 
-### Manual Installation
-
-1. Download `quarkdown.zip` from [releases](https://github.com/AIPMAndy/MDtoAll/releases)
-2. Unzip and add `bin/` to your PATH
-3. Verify: `quarkdown --version`
-
-Or build from source:
+#### Build from Source
 
 ```bash
+git clone https://github.com/AIPMAndy/MDtoAll.git
+cd MDtoAll
 ./gradlew installDist
 ```
 
-## Quick Start
+### 📖 Usage Examples
 
-### Create Your First Document
+#### Create Your First Document
 
 ```bash
 # Create a new project
 quarkdown create my-project
 
 # Or manually create a .qd file
-echo ".doctype {plain}
+cat > hello.qd << 'EOF'
+.doctype {plain}
 
 # Hello World
 
-This is **MDtoAll** in action!" > hello.qd
+This is **MDtoAll** in action!
+
+.center
+    Centered text block
+
+## Feature Showcase
+
+.row alignment:{spacebetween}
+    ![Image 1](img1.png)
+    ![Image 2](img2.png)
+    ![Image 3](img3.png)
+EOF
 ```
 
-### Compile
+#### Compile Documents
 
 ```bash
 # Basic compilation
 quarkdown c hello.qd
 
-# With live preview
+# Live preview (recommended)
 quarkdown c hello.qd -p -w
 
 # Export to PDF
 quarkdown c hello.qd --pdf
 ```
 
-## Usage
+#### Advanced Syntax Examples
 
-### Basic Syntax
-
-MDtoAll extends standard Markdown with functions:
-
-```markdown
-.doctype {paged}
-
-# My Document
-
-.tableofcontents
-
-## Introduction
-
-This is a **bold** statement with _emphasis_.
-
-.center
-    Centered text block
-
-.row alignment:{spacebetween}
-    ![Image 1](img1.png)
-    ![Image 2](img2.png)
-    ![Image 3](img3.png)
-```
-
-### Custom Functions
-
-Define reusable functions:
+**Custom Functions:**
 
 ```markdown
 .function {greet}
@@ -158,9 +290,7 @@ Define reusable functions:
 
 Output: **Hello, World!** from MDtoAll
 
-### Document Types
-
-Set the document type at the beginning:
+**Document Type Settings:**
 
 ```markdown
 .doctype {plain}   # Default: continuous flow
@@ -169,63 +299,37 @@ Set the document type at the beginning:
 .doctype {docs}    # Documentation site
 ```
 
-### CLI Options
+### 📊 Comparison with Other Tools
 
-```bash
-quarkdown c <file.qd> [options]
-
-Options:
-  -p, --preview     Enable live preview
-  -w, --watch       Auto-recompile on file changes
-  --pdf             Export to PDF
-  --clean           Clean output directory before compiling
-  --strict          Strict mode (fail on warnings)
-```
-
-## Project Structure
-
-```
-MDtoAll/
-├── quarkdown-core/          # Core compiler
-├── quarkdown-stdlib/        # Standard library
-├── quarkdown-html/          # HTML renderer
-├── quarkdown-cli/           # Command-line interface
-├── quarkdown-lsp/           # Language server
-├── docs/                    # Documentation
-└── mock/                    # Example documents
-```
-
-## Comparison
-
-|                       | MDtoAll/Quarkdown | LaTeX | Typst | AsciiDoc | MDX |
-|-----------------------|:-----------------:|:-----:|:-----:|:--------:|:---:|
+|                       | MDtoAll | LaTeX | Typst | AsciiDoc | MDX |
+|-----------------------|:-------:|:-----:|:-----:|:--------:|:---:|
 | Readable syntax       | ✅ | ❌ | ✅ | ✅ | ✅ |
 | Full document control | ✅ | ✅ | ✅ | ❌ | ❌ |
 | Scripting support     | ✅ | Partial | ✅ | ❌ | ✅ |
 | Multiple output types | ✅ | ❌ | Partial | ✅ | ✅ |
 | Learning curve        | Low | High | Medium | Low | Low |
 
-## Examples
-
-Check out the [`mock`](mock) directory for comprehensive examples, or view pre-generated PDFs in the [generated repo](https://github.com/quarkdown-labs/generated).
-
-## Contributing
+### 🤝 Contributing
 
 Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-## Credits
-
-MDtoAll is a fork of [Quarkdown](https://github.com/iamgio/quarkdown) by [Giorgio Garofalo](https://github.com/iamgio). We extend our gratitude to the original author and all contributors.
-
-## License
+### 📜 License
 
 - Core modules: GNU GPLv3
 - CLI and LSP: GNU AGPLv3
 
-See [LICENSE](LICENSE) for full details.
+See [LICENSE](LICENSE) for details.
+
+### 🙏 Credits
+
+MDtoAll is a fork of [Quarkdown](https://github.com/iamgio/quarkdown) by [Giorgio Garofalo](https://github.com/iamgio). We extend our gratitude to the original author and all contributors.
 
 ---
 
-<p align="center">
-  Made with ❤️ by <a href="https://github.com/AIPMAndy">Andy</a>
-</p>
+<div align="center">
+
+**Made with ❤️ by [Andy](https://github.com/AIPMAndy)**
+
+⭐ Star this repo if you find it useful!
+
+</div>
